@@ -218,8 +218,8 @@ public class BookingCarActivity extends AppCompatActivity {
         int vehicleID = Integer.valueOf(getIntent().getStringExtra("VEHICLEID"));
         String insuranceID = getIntent().getStringExtra("INSURANCEID");
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String uid=user.getUid();
-        int customerID = Integer.parseInt(uid);
+        String customerID=user.getUid();
+
 
         //CREATE A BOOKING OBJECT FROM THE INSURANCE PROVIDED
         Booking newBooking = new Booking(bookingID,_pickup,_return,null,customerID,1010,-1,vehicleID,insuranceID);

@@ -26,7 +26,7 @@ public class Booking implements Serializable {
                 parentColumns = "parentClassColumn",
                 childColumns = "childClassColumn",
                 onDelete = ForeignKey.CASCADE)
-    @NonNull private int customerID;
+    @NonNull private String customerID;
 
     @ForeignKey(entity = Administrator.class,
                 parentColumns = "parentClassColumn",
@@ -53,7 +53,7 @@ public class Booking implements Serializable {
             onDelete = ForeignKey.CASCADE)
     private String insuranceID;
 
-    public Booking(int bookingID, Calendar pickupDate, Calendar returnDate, String bookingStatus, int customerID, int administratorID, int billingID, int vehicleID, String insuranceID) {
+    public Booking(int bookingID, Calendar pickupDate, Calendar returnDate, String bookingStatus, String customerID, int administratorID, int billingID, int vehicleID, String insuranceID) {
         this.bookingID = bookingID;
         this.pickupDate = pickupDate;
         this.returnDate = returnDate;
@@ -117,11 +117,11 @@ public class Booking implements Serializable {
         this.bookingStatus = bookingStatus;
     }
 
-    public int getCustomerID() {
+    public String getCustomerID() {
         return customerID;
     }
 
-    public void setCustomerID(int customerID) {
+    public void setCustomerID(String customerID) {
         this.customerID = customerID;
     }
 

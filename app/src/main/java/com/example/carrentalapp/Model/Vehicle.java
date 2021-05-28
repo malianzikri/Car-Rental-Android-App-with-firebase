@@ -1,5 +1,6 @@
 package com.example.carrentalapp.Model;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -9,7 +10,8 @@ import java.io.Serializable;
 public class Vehicle implements Serializable {
 
     @PrimaryKey
-    private int vehicleID;
+    @NonNull
+    private String vehicleID;
 
     private double price;
     private int seats;
@@ -23,7 +25,7 @@ public class Vehicle implements Serializable {
     public Vehicle() {
 
     }
-    public Vehicle(int vehicleID, double price, int seats, int mileage, String manufacturer, String model, int year, String category, boolean availability, String vehicleImageURL) {
+    public Vehicle(String vehicleID, double price, int seats, int mileage, String manufacturer, String model, int year, String category, boolean availability, String vehicleImageURL) {
         this.vehicleID = vehicleID;
         this.price = price;
         this.seats = seats;
@@ -69,11 +71,11 @@ public class Vehicle implements Serializable {
     }
 
 
-    public int getVehicleID() {
+    public String getVehicleID() {
         return vehicleID;
     }
 
-    public void setVehicleID(int vehicleID) {
+    public void setVehicleID(String vehicleID) {
         this.vehicleID = vehicleID;
     }
 

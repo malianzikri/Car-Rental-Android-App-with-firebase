@@ -1,5 +1,6 @@
 package com.example.carrentalapp.ActivityPages;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
@@ -18,9 +19,13 @@ import com.example.carrentalapp.Database.VehicleCategoryDao;
 import com.example.carrentalapp.Database.VehicleDao;
 import com.example.carrentalapp.Model.Vehicle;
 import com.example.carrentalapp.R;
+import com.google.firebase.FirebaseError;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.Random;
@@ -45,9 +50,6 @@ public class AddVehicleActivity extends AppCompatActivity {
 
     private ImageView vehicleImage;
 
-    private VehicleDao vehicleDao;
-    private VehicleCategoryDao vehicleCategoryDao;
-    private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
 
     @Override
@@ -77,14 +79,7 @@ public class AddVehicleActivity extends AppCompatActivity {
         load = findViewById(R.id.load);
         vehicleImage = findViewById(R.id.viewVehicle);
 
-        vehicleCategoryDao = Room.databaseBuilder(getApplicationContext(), Project_Database.class, "car_rental_db").
-                allowMainThreadQueries().
-                build().
-                vehicleCategoryDao();
-        vehicleDao = Room.databaseBuilder(getApplicationContext(), Project_Database.class, "car_rental_db").
-                allowMainThreadQueries().
-                build().
-                vehicleDao();
+
     }
 
     private void listenHandler(){
@@ -94,12 +89,36 @@ public class AddVehicleActivity extends AppCompatActivity {
                 Vehicle vehicle = createVehicle();
 
                 if(vehicle != null){
-                    int vehicleID = generateID(200,300);
+                    String vehicleID = generateID(200,300);
                     mDatabase = FirebaseDatabase.getInstance("https://car-rental-android-app-m-f727e-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference();
-                    mDatabase.child("Vehicle").child(String.valueOf(vehicleID)).setValue(vehicle);
+                    mDatabase.child("Vehicle").child(vehicle.getCategory()).child(String.valueOf(vehicleID)).setValue(vehicle);
+                    mDatabase.child("VehicleCategory").child(category.getText().toString()).child("quantity").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                            try {
+                                if (snapshot.getValue() != null) {
+                                    try {
+                                        mDatabase.child("VehicleCategory").child(category.getText().toString()).child("quantity").setValue(Integer.parseInt(snapshot.getValue().toString())+1);
+                                        Log.e("TAG", "" + snapshot.getValue()); // your name values you will get here
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                } else {
+                                    Log.e("TAG", " it's null.");
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
 
-                    vehicleDao.insert(vehicle);
-                    vehicleCategoryDao.updateQuantity(category.getText().toString());
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Log.e("onCancelled", " cancelled");
+                        }
+
+
+                    });
+
                     Log.d("MainActivity",vehicle.getObject());
                     toast("Vehicle Added");
                 }
@@ -109,8 +128,9 @@ public class AddVehicleActivity extends AppCompatActivity {
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                vehicleCategoryDao.deleteAll();
-                vehicleDao.deleteAll();
+                mDatabase = FirebaseDatabase.getInstance("https://car-rental-android-app-m-f727e-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference();
+                mDatabase.child("Vehicle").removeValue();
+                mDatabase.child("VehicleCategory").removeValue();
                 toast("RESET");
             }
         });
@@ -155,11 +175,9 @@ public class AddVehicleActivity extends AppCompatActivity {
 
         boolean valid = isValid(_category,_seats,_price,_mileage,_manufacturer,_model,_year,_imageURL);
 
-        int vehicleID = generateID(200,300);
+        String vehicleID = generateID(200,300);
 
-        while(vehicleDao.exists(vehicleID)){
-            vehicleID = generateID(200,300);
-        }
+
 
         if(valid){
             Vehicle vehicle = new Vehicle(
@@ -181,11 +199,8 @@ public class AddVehicleActivity extends AppCompatActivity {
     }
 
     private boolean isValid(String category, String seats, String price, String mileage, String manufacturer, String model, String year, String imageURL) {
-        if(!vehicleCategoryDao.exits(category)){
-            toast(category + " Category does not exits");
-            return false;
-        }
-        else if(category.equals("")){
+
+         if(category.equals("")){
             toast("Category is blank");
             return false;
         }
@@ -223,9 +238,9 @@ public class AddVehicleActivity extends AppCompatActivity {
         toast.show();
     }
 
-    private int generateID(int start,int end){
-        Random rnd = new Random();
-        int id = rnd.nextInt(end-start)+start;
-        return id;
+    private String generateID(int start,int end){
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://car-rental-android-app-m-f727e-default-rtdb.asia-southeast1.firebasedatabase.app/");
+        String key = database.getReference("users").push().getKey();;
+        return key;
     }
 }

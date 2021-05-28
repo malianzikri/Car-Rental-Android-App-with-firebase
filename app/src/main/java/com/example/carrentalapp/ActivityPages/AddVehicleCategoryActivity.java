@@ -91,9 +91,9 @@ public class AddVehicleCategoryActivity extends AppCompatActivity {
                 if(vehicleCategory != null){
 
                     mDatabase = FirebaseDatabase.getInstance("https://car-rental-android-app-m-f727e-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference();
-                    mDatabase.child("VehicleCategory").child(String.valueOf(vehicleCategory.getCategoryID())).setValue(vehicleCategory);
+                    mDatabase.child("VehicleCategory").child(vehicleCategory.getCategory()).setValue(vehicleCategory);
 
-                    vehicleCategoryDao.insert(vehicleCategory);
+
                     Log.d("MainActivity",vehicleCategory.getObject());
                     toast("Vehicle Category Added");
                 }
@@ -103,8 +103,9 @@ public class AddVehicleCategoryActivity extends AppCompatActivity {
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                vehicleCategoryDao.deleteAll();
-                vehicleDao.deleteAll();
+                mDatabase = FirebaseDatabase.getInstance("https://car-rental-android-app-m-f727e-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference();
+                mDatabase.child("Vehicle").removeValue();
+                mDatabase.child("VehicleCategory").removeValue();
                 toast("RESET");
             }
         });

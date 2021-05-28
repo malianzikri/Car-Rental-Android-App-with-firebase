@@ -61,14 +61,7 @@ public class VehicleFragment extends Fragment implements VehicleAdapter.onVehicl
     }
     private DatabaseReference mDatabase;
     private void initComponents(View view) {
-
         selectVehicleCategory = getArguments().getString("CATEGORY");
-
-        vehicleDao = Room.databaseBuilder(getContext(), Project_Database.class, "car_rental_db").allowMainThreadQueries()
-                .build()
-                .vehicleDao();
-
-
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

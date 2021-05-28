@@ -196,11 +196,11 @@ public class LoginActivity extends AppCompatActivity {
                 VehicleCategory vc4 = new VehicleCategory("coupe",103,-3092272,"https://di-uploads-pod12.dealerinspire.com/beavertonhondaredesign/uploads/2017/12/2017-Honda-Accord-Coupe-Sideview.png");
                 VehicleCategory vc5 = new VehicleCategory("van",104,-9539986,"https://st.motortrend.com/uploads/sites/10/2016/12/2017-mercedes-benz-metris-base-passenger-van-side-view.png");
                 mDatabase = FirebaseDatabase.getInstance("https://car-rental-android-app-m-f727e-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference();
-                mDatabase.child("VehicleCategory").child(String.valueOf(vc1.getCategoryID())).setValue(vc1);
-                mDatabase.child("VehicleCategory").child(String.valueOf(vc2.getCategoryID())).setValue(vc2);
-                mDatabase.child("VehicleCategory").child(String.valueOf(vc3.getCategoryID())).setValue(vc3);
-                mDatabase.child("VehicleCategory").child(String.valueOf(vc4.getCategoryID())).setValue(vc4);
-                mDatabase.child("VehicleCategory").child(String.valueOf(vc5.getCategoryID())).setValue(vc5);
+                mDatabase.child("VehicleCategory").child("sedan").setValue(vc1);
+                mDatabase.child("VehicleCategory").child("suv").setValue(vc2);
+                mDatabase.child("VehicleCategory").child("sports").setValue(vc3);
+                mDatabase.child("VehicleCategory").child("coupe").setValue(vc4);
+                mDatabase.child("VehicleCategory").child("van").setValue(vc5);
 
                 vehicleCategoryDao.insert(vc1);
                 vehicleCategoryDao.insert(vc2);
@@ -209,13 +209,13 @@ public class LoginActivity extends AppCompatActivity {
                 vehicleCategoryDao.insert(vc5);
 
 
-                Vehicle v1 = new Vehicle(273,65.5,5,6497,"nissan","altima",2020,"sedan",true,"https://65e81151f52e248c552b-fe74cd567ea2f1228f846834bd67571e.ssl.cf1.rackcdn.com/ldm-images/2020-Nissan-Altima-Color-Super-Black.png");
-                Vehicle v2 = new Vehicle(285,54.8,5,4578,"toyota","avalon",2020,"sedan",true,"https://img.sm360.ca/ir/w640h390c/images/newcar/ca/2020/toyota/avalon/limited/sedan/main/2020_toyota_avalon_LTD_Main.png");
-                Vehicle v3 = new Vehicle(287,50.99,5,1379,"subaru","wrx",2020,"sedan",true,"https://img.sm360.ca/ir/w640h390c/images/newcar/ca/2020/subaru/wrx/base-wrx/sedan/exteriorColors/12750_cc0640_001_d4s.png");
-                Vehicle v4 = new Vehicle(265,58.89,5,6490,"kia","telluride",2020,"suv",true,"https://www.cstatic-images.com/car-pictures/xl/usd00kis061c021003.png");
-                Vehicle v5 = new Vehicle(229,86.5,5,4970,"lincoln","aviator",2020,"suv",true,"https://www.cstatic-images.com/car-pictures/xl/usd00lis021b021003.png");
-                Vehicle v6 = new Vehicle(219,95.0,5,595,"ford","explorer",2020,"suv",true,"https://www.cstatic-images.com/car-pictures/xl/usd00fos102d021003.png");
-                Vehicle v7 = new Vehicle(297,56.0,2,200,"chevrolet","camaro",2020,"coupe",false,"https://www.cstatic-images.com/car-pictures/xl/usc90chc022b021003.png");
+                Vehicle v1 = new Vehicle("273",65.5,5,6497,"nissan","altima",2020,"sedan",true,"https://65e81151f52e248c552b-fe74cd567ea2f1228f846834bd67571e.ssl.cf1.rackcdn.com/ldm-images/2020-Nissan-Altima-Color-Super-Black.png");
+                Vehicle v2 = new Vehicle("285",54.8,5,4578,"toyota","avalon",2020,"sedan",true,"https://img.sm360.ca/ir/w640h390c/images/newcar/ca/2020/toyota/avalon/limited/sedan/main/2020_toyota_avalon_LTD_Main.png");
+                Vehicle v3 = new Vehicle("287",50.99,5,1379,"subaru","wrx",2020,"sedan",true,"https://img.sm360.ca/ir/w640h390c/images/newcar/ca/2020/subaru/wrx/base-wrx/sedan/exteriorColors/12750_cc0640_001_d4s.png");
+                Vehicle v4 = new Vehicle("265",58.89,5,6490,"kia","telluride",2020,"suv",true,"https://www.cstatic-images.com/car-pictures/xl/usd00kis061c021003.png");
+                Vehicle v5 = new Vehicle("229",86.5,5,4970,"lincoln","aviator",2020,"suv",true,"https://www.cstatic-images.com/car-pictures/xl/usd00lis021b021003.png");
+                Vehicle v6 = new Vehicle("219",95.0,5,595,"ford","explorer",2020,"suv",true,"https://www.cstatic-images.com/car-pictures/xl/usd00fos102d021003.png");
+                Vehicle v7 = new Vehicle("297",56.0,2,200,"chevrolet","camaro",2020,"coupe",false,"https://www.cstatic-images.com/car-pictures/xl/usc90chc022b021003.png");
 
                 vehicleDao.insert(v1);
                 vehicleDao.insert(v2);

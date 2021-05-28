@@ -116,7 +116,7 @@ public class BookingCompleteActivity extends AppCompatActivity {
     }
 
     private void displayCustomerInformation() {
-        Customer customer = customerDao.findUser(booking.getCustomerID());
+        Customer customer = customerDao.findUser(Integer.parseInt(booking.getCustomerID()));
         //DISPLAY DRIVER INFO
         name.setText(customer.getFullName());
         email.setText(customer.getEmail());

@@ -54,7 +54,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingH
     public void onBindViewHolder(@NonNull BookingHolder bookingHolder, int position) {
         Booking _booking = bookings.get(position);
         Vehicle _vehicle = vehicleDao.findVehicle(_booking.getVehicleID());
-        Customer _customer = customerDao.findUser(_booking.getCustomerID());
+        Customer _customer = customerDao.findUser(Integer.parseInt(_booking.getCustomerID()));
 
         bookingHolder.vehicleName.setText(_vehicle.fullTitle());
         bookingHolder.bookingID.setText(_booking.getBookingID()+"");
