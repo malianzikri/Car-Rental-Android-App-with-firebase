@@ -74,7 +74,7 @@ public class VehicleFragment extends Fragment implements VehicleAdapter.onVehicl
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mDatabase = FirebaseDatabase.getInstance("https://car-rental-android-app-m-f727e-default-rtdb.asia-southeast1.firebasedatabase.app").getReference();
         final ArrayList<Vehicle> vehicles=new ArrayList<>();
-        mDatabase.child("Vehicle").child(selectVehicleCategory).addValueEventListener(new ValueEventListener() {
+        mDatabase.child("Vehicle").child(selectVehicleCategory.toLowerCase()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 System.out.println("masuk sini dak sih");

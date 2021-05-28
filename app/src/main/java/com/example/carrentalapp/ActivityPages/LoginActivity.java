@@ -224,13 +224,13 @@ public class LoginActivity extends AppCompatActivity {
                 vehicleDao.insert(v5);
                 vehicleDao.insert(v6);
                 vehicleDao.insert(v7);
-                mDatabase.child("Vehicle").child("100").child(String.valueOf(v1.getVehicleID())).setValue(v1);
-                mDatabase.child("Vehicle").child("100").child(String.valueOf(v2.getVehicleID())).setValue(v2);
-                mDatabase.child("Vehicle").child("100").child(String.valueOf(v3.getVehicleID())).setValue(v3);
-                mDatabase.child("Vehicle").child("101").child(String.valueOf(v4.getVehicleID())).setValue(v4);
-                mDatabase.child("Vehicle").child("101").child(String.valueOf(v5.getVehicleID())).setValue(v5);
-                mDatabase.child("Vehicle").child("101").child(String.valueOf(v6.getVehicleID())).setValue(v6);
-                mDatabase.child("Vehicle").child("103").child(String.valueOf(v7.getVehicleID())).setValue(v7);
+                mDatabase.child("Vehicle").child("sedan").child(String.valueOf(v1.getVehicleID())).setValue(v1);
+                mDatabase.child("Vehicle").child("sedan").child(String.valueOf(v2.getVehicleID())).setValue(v2);
+                mDatabase.child("Vehicle").child("sedan").child(String.valueOf(v3.getVehicleID())).setValue(v3);
+                mDatabase.child("Vehicle").child("suv").child(String.valueOf(v4.getVehicleID())).setValue(v4);
+                mDatabase.child("Vehicle").child("suv").child(String.valueOf(v5.getVehicleID())).setValue(v5);
+                mDatabase.child("Vehicle").child("suv").child(String.valueOf(v6.getVehicleID())).setValue(v6);
+                mDatabase.child("Vehicle").child("coupe").child(String.valueOf(v7.getVehicleID())).setValue(v7);
 
 
                 Insurance i1 = new Insurance("None",0);

@@ -117,7 +117,7 @@ public class VehicleCategoryFragment extends Fragment implements VehicleCategory
     public void onCategoryClick(int position) {
         toast(list.get(position).getCategory());
 
-        int selectedCategory = list.get(position).getCategoryID();
+        String selectedCategory = list.get(position).getCategory();
 
         Bundle bundle=new Bundle();
         bundle.putString("CATEGORY", String.valueOf(selectedCategory));

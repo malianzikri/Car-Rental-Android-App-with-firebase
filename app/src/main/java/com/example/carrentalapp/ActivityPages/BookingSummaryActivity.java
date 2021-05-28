@@ -216,7 +216,7 @@ public class BookingSummaryActivity extends AppCompatActivity {
         bookingDao.insert(booking);
         billingDao.insert(billing);
         paymentDao.insert(payment);
-
+        mDatabase.child("Vehicle").child(String.valueOf(booking.getBookingID())).setValue(booking);
         vehicle.setAvailability(false);
         vehicleDao.update(vehicle);
     }

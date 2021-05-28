@@ -3,6 +3,7 @@ package com.example.carrentalapp.Model;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 
@@ -25,7 +26,7 @@ public class Booking implements Serializable {
                 parentColumns = "parentClassColumn",
                 childColumns = "childClassColumn",
                 onDelete = ForeignKey.CASCADE)
-    private String customerID;
+    @NonNull private int customerID;
 
     @ForeignKey(entity = Administrator.class,
                 parentColumns = "parentClassColumn",
@@ -52,7 +53,7 @@ public class Booking implements Serializable {
             onDelete = ForeignKey.CASCADE)
     private String insuranceID;
 
-    public Booking(int bookingID, Calendar pickupDate, Calendar returnDate, String bookingStatus, String customerID, int administratorID, int billingID, int vehicleID, String insuranceID) {
+    public Booking(int bookingID, Calendar pickupDate, Calendar returnDate, String bookingStatus, int customerID, int administratorID, int billingID, int vehicleID, String insuranceID) {
         this.bookingID = bookingID;
         this.pickupDate = pickupDate;
         this.returnDate = returnDate;
@@ -116,11 +117,11 @@ public class Booking implements Serializable {
         this.bookingStatus = bookingStatus;
     }
 
-    public String getCustomerID() {
+    public int getCustomerID() {
         return customerID;
     }
 
-    public void setCustomerID(String customerID) {
+    public void setCustomerID(int customerID) {
         this.customerID = customerID;
     }
 
