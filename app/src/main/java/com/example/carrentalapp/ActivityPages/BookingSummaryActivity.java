@@ -1,5 +1,6 @@
 package com.example.carrentalapp.ActivityPages;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.room.Room;
@@ -11,6 +12,7 @@ import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -35,8 +37,11 @@ import com.example.carrentalapp.R;
 import com.github.ybq.android.spinkit.style.Wave;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -81,15 +86,10 @@ public class BookingSummaryActivity extends AppCompatActivity {
 
         initComponents();
 
-        Wave wave = new Wave();
-        paidLoading.setIndeterminateDrawable(wave);
-
-        listenHandler();
-        displayCustomerInformation();
-        displaySummary();
-        displayTotalCost();
 
     }
+
+
 
     private void initComponents() {
         back = findViewById(R.id.back);
@@ -137,13 +137,73 @@ public class BookingSummaryActivity extends AppCompatActivity {
         paymentDao = Room.databaseBuilder(getApplicationContext(), Project_Database.class, "car_rental_db").allowMainThreadQueries()
                     .build()
                     .paymentDao();
-        //GET BOOKING OBJECT WHICH WAS PASSED FROM PREVIOUS PAGE
-        booking = (Booking) getIntent().getSerializableExtra("BOOKING");
-        chosenInsurance = insuranceDao.findInsurance(booking.getInsuranceID());
-        vehicle = vehicleDao.findVehicle(booking.getVehicleID());
-
         paidLoading = findViewById(R.id.paidLoading);
         paidLoading.setVisibility(View.INVISIBLE);
+        //GET BOOKING OBJECT WHICH WAS PASSED FROM PREVIOUS PAGE
+        booking = (Booking) getIntent().getSerializableExtra("BOOKING");
+
+        mDatabase = FirebaseDatabase.getInstance("https://car-rental-android-app-m-f727e-default-rtdb.asia-southeast1.firebasedatabase.app").getReference();
+        mDatabase.child("Insurance").child(booking.getInsuranceID()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                try {
+                    if (snapshot.getValue() != null) {
+                        try {
+                            chosenInsurance = snapshot.getValue(Insurance.class);
+                            System.out.println("sini cy");
+                            System.out.println(booking.getVehicleCategory());
+                            System.out.println(booking.getVehicleID());
+                            mDatabase.child("Vehicle").child(booking.getVehicleCategory().toLowerCase()).child(String.valueOf(booking.getVehicleID())).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot snapshot) {
+                                    try {
+                                        if (snapshot.getValue() != null) {
+                                            try {
+                                                vehicle = snapshot.getValue(Vehicle.class);
+
+                                                Wave wave = new Wave();
+                                                paidLoading.setIndeterminateDrawable(wave);
+
+                                                listenHandler();
+                                                displayCustomerInformation();
+                                                displaySummary();
+                                                displayTotalCost();
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        } else {
+                                            Log.e("TAG", " it's null.");
+                                        }
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    Log.e("onCancelled", " cancelled");
+                                }
+                            });
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        Log.e("TAG", " it's null.");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("onCancelled", " cancelled");
+            }
+        });
+
+
+
+
     }
 
     private void listenHandler() {
@@ -191,15 +251,11 @@ public class BookingSummaryActivity extends AppCompatActivity {
 
         //GENERATE PAYMENT ID
         int paymentID = generateID(600,699);
-        while(paymentDao.exist(paymentID)){
-            paymentID=generateID(600,699);
-        }
+
 
         //GENRATE BILLING ID
         int billingID = generateID(500,599);
-        while(billingDao.exist(billingID)){
-            billingID=generateID(500,599);
-        }
+
 
         Calendar currentDate = Calendar.getInstance();
 
@@ -208,17 +264,14 @@ public class BookingSummaryActivity extends AppCompatActivity {
         booking.setBillingID(billingID);
         booking.setBookingStatus("Waiting for approval");
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         mDatabase = FirebaseDatabase.getInstance("https://car-rental-android-app-m-f727e-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference();
-        mDatabase.child("Booking").child(String.valueOf(booking.getBookingID())).setValue(booking);
-        mDatabase.child("Payment").child(String.valueOf(payment.getPaymentID())).setValue(payment);
-        mDatabase.child("Billing").child(String.valueOf(billing.getBillingID())).setValue(billing);
-        bookingDao.insert(booking);
-        billingDao.insert(billing);
-        paymentDao.insert(payment);
-        mDatabase.child("Vehicle").child(String.valueOf(booking.getBookingID())).setValue(booking);
-        vehicle.setAvailability(false);
-        vehicleDao.update(vehicle);
+        mDatabase.child("Booking").child(user.getUid()).child(String.valueOf(booking.getBookingID())).setValue(booking);
+        mDatabase.child("Payment").child(user.getUid()).child(String.valueOf(payment.getPaymentID())).setValue(payment);
+        mDatabase.child("Billing").child(user.getUid()).child(String.valueOf(billing.getBillingID())).setValue(billing);
+        mDatabase.child("Vehicle").child(booking.getVehicleCategory().toLowerCase()).child(String.valueOf(booking.getVehicleID())).child("availability").setValue(false);
+
     }
 
     private DatabaseReference mDatabase;

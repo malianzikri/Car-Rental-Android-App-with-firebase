@@ -21,6 +21,10 @@ public class Insurance implements Serializable{
 
     private double cost;
 
+    public Insurance() {
+
+    }
+
     public Insurance(String coverageType, double cost) {
         this.coverageType = coverageType.toLowerCase();
 

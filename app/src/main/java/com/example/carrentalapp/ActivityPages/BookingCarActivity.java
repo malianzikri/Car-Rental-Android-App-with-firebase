@@ -185,44 +185,42 @@ public class BookingCarActivity extends AppCompatActivity {
             }
         });
 
-        //GET ALL THE DRIVER DETAIL FIELD
-        String _firstName = firstName.getText().toString().toLowerCase();
-        String _lastName = lastName.getText().toString().toLowerCase();
-        String _email= email.getText().toString().toLowerCase();
-        String _phoneNumber = phoneNumber.getText().toString();
+//        //GET ALL THE DRIVER DETAIL FIELD
+//        String _firstName = firstName.getText().toString().toLowerCase();
+//        String _lastName = lastName.getText().toString().toLowerCase();
+//        String _email= email.getText().toString().toLowerCase();
+//        String _phoneNumber = phoneNumber.getText().toString();
+//
+//        //ENSURE THAT ALL FIELDS ARE NOT EMPTY
+//        if(!fieldCheck(_firstName,_lastName,_email,_phoneNumber)) {
+//            toast("Incomplete Form");
+//            return;
+//        }
 
-        //ENSURE THAT ALL FIELDS ARE NOT EMPTY
-        if(!fieldCheck(_firstName,_lastName,_email,_phoneNumber)) {
-            toast("Incomplete Form");
-            return;
-        }
-
-        //GET THE CUSTOMER OBJECT FROM THE INFORMATION PROVIDED
-        Customer customer = customerDao.findUser(_firstName,_lastName,_email);
-
-        //IF CUSTOMER NOT FOUND DO NOTHING
-        if(customer == null){
-            toast("Customer Do Not Exist");
-            return;
-        }
-
-        customerDao.setTitle(mrMs,customer.getCustomerID());
+//        //GET THE CUSTOMER OBJECT FROM THE INFORMATION PROVIDED
+//        Customer customer = customerDao.findUser(_firstName,_lastName,_email);
+//
+//        //IF CUSTOMER NOT FOUND DO NOTHING
+//        if(customer == null){
+//            toast("Customer Do Not Exist");
+//            return;
+//        }
+//
+//        customerDao.setTitle(mrMs,customer.getCustomerID());
 
         //GENERATE UNIQUE BOOKING ID
         int bookingID = generateID(400,499);
-        while(bookingDao.exist(bookingID)){
-            bookingID = generateID(400,499);
-        }
+
 
         //ALL THE REQUIRED ID TO GENERATE A BOOKING
         int vehicleID = Integer.valueOf(getIntent().getStringExtra("VEHICLEID"));
         String insuranceID = getIntent().getStringExtra("INSURANCEID");
+        String VehicleCategory = getIntent().getStringExtra("VEHICLEIDCategory");
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String customerID=user.getUid();
 
-
         //CREATE A BOOKING OBJECT FROM THE INSURANCE PROVIDED
-        Booking newBooking = new Booking(bookingID,_pickup,_return,null,customerID,1010,-1,vehicleID,insuranceID);
+        Booking newBooking = new Booking(bookingID,_pickup,_return,null,customerID,1010,-1,vehicleID,insuranceID,VehicleCategory);
 
         //REDIRECT THEM TO BOOKING SUMMARY PAGE WITH PASSING THE BOOKING OBJECT
         Intent bookingSummary = new Intent(BookingCarActivity.this,BookingSummaryActivity.class);

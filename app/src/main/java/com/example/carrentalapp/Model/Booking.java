@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 
+import com.google.firebase.database.Exclude;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -15,10 +17,22 @@ import java.util.Calendar;
 public class Booking implements Serializable {
 
 
+    public String getVehicleCategory() {
+        return VehicleCategory;
+    }
+
+    public void setVehicleCategory(String vehicleCategory) {
+        VehicleCategory = vehicleCategory;
+    }
+
+    private  String VehicleCategory;
     private int bookingID;
 
-    private Calendar pickupDate;
-    private Calendar returnDate;
+    @Exclude
+    public Calendar pickupDate;
+
+    @Exclude
+    public Calendar returnDate;
 
     private String bookingStatus;
 
@@ -53,7 +67,10 @@ public class Booking implements Serializable {
             onDelete = ForeignKey.CASCADE)
     private String insuranceID;
 
-    public Booking(int bookingID, Calendar pickupDate, Calendar returnDate, String bookingStatus, String customerID, int administratorID, int billingID, int vehicleID, String insuranceID) {
+    public Booking() {
+
+    }
+    public Booking(int bookingID, Calendar pickupDate, Calendar returnDate, String bookingStatus, String customerID, int administratorID, int billingID, int vehicleID, String insuranceID,String VehicleCategory) {
         this.bookingID = bookingID;
         this.pickupDate = pickupDate;
         this.returnDate = returnDate;
@@ -62,6 +79,7 @@ public class Booking implements Serializable {
         this.administratorID = administratorID;
         this.billingID = billingID;
         this.vehicleID = vehicleID;
+        this.VehicleCategory = VehicleCategory;
         this.insuranceID = insuranceID;
     }
 
