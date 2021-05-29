@@ -35,6 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 
@@ -204,8 +205,11 @@ public class BookingCompleteActivity extends AppCompatActivity {
     }
 
 
-    private long getDayDifference(Calendar start, Calendar end){
-        return ChronoUnit.DAYS.between(start.toInstant(), end.toInstant())+2;
+    private long getDayDifference(String start, String end){
+        LocalDate localDate1 = LocalDate.parse(start);
+        LocalDate localDate2 = LocalDate.parse(end);
+        long noOfDaysDifference = ChronoUnit.DAYS.between(localDate1, localDate2);
+        return noOfDaysDifference;
     }
 
     private double calculateTotalCost(){

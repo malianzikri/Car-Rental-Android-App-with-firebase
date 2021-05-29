@@ -20,6 +20,7 @@ import com.example.carrentalapp.Adapter.VehicleCategoryAdapter;
 import com.example.carrentalapp.Database.BookingDao;
 import com.example.carrentalapp.Database.Project_Database;
 import com.example.carrentalapp.Model.Booking;
+import com.example.carrentalapp.Model.Vehicle;
 import com.example.carrentalapp.Model.VehicleCategory;
 import com.example.carrentalapp.R;
 import com.example.carrentalapp.Session.Session;
@@ -80,16 +81,16 @@ public class BookingFragment extends Fragment implements BookingAdapter.onBookin
             public void onDataChange(DataSnapshot dataSnapshot) {
                 System.out.println("masuk sini dak sih");
                 for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
-                    Booking booking = new Booking();
+                    Booking booking = singleSnapshot.getValue(Booking.class);
                     
-                    booking.setAdministratorID(Integer.parseInt(singleSnapshot.child("administratorID").getValue().toString()));
-                    booking.setBillingID(Integer.parseInt(singleSnapshot.child("billingID").getValue().toString()));
-                    booking.setBookingID(Integer.parseInt(singleSnapshot.child("bookingID").getValue().toString()));
-                    booking.setBookingStatus(singleSnapshot.child("bookingStatus").getValue().toString());
-                    booking.setCustomerID(singleSnapshot.child("customerID").getValue().toString());
-                    booking.setInsuranceID(singleSnapshot.child("insuranceID").getValue().toString());
-                    booking.setVehicleCategory(singleSnapshot.child("vehicleCategory").getValue().toString());
-                    booking.setVehicleID(Integer.parseInt(singleSnapshot.child("vehicleID").getValue().toString()));
+//                    booking.setAdministratorID(Integer.parseInt(singleSnapshot.child("administratorID").getValue().toString()));
+//                    booking.setBillingID(Integer.parseInt(singleSnapshot.child("billingID").getValue().toString()));
+//                    booking.setBookingID(Integer.parseInt(singleSnapshot.child("bookingID").getValue().toString()));
+//                    booking.setBookingStatus(singleSnapshot.child("bookingStatus").getValue().toString());
+//                    booking.setCustomerID(singleSnapshot.child("customerID").getValue().toString());
+//                    booking.setInsuranceID(singleSnapshot.child("insuranceID").getValue().toString());
+//                    booking.setVehicleCategory(singleSnapshot.child("vehicleCategory").getValue().toString());
+//                    booking.setVehicleID(Integer.parseInt(singleSnapshot.child("vehicleID").getValue().toString()));
                     books.add(booking);
                 }
                 bookings =books ;

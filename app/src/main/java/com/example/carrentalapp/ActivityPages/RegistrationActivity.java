@@ -25,6 +25,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -118,13 +119,24 @@ public class RegistrationActivity extends AppCompatActivity{
                                             mDatabase = FirebaseDatabase.getInstance("https://car-rental-android-app-m-f727e-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference();
 
                                             FirebaseUser user = task.getResult().getUser();
-                                            String uid= user.getUid();
+                                            final String uid= user.getUid();
+                                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                                    .setDisplayName(customer.getFullName())
+                                                    .build();
 
-                                            mDatabase.child("users").child(uid).child("detail_user").setValue(customer);
+                                            user.updateProfile(profileUpdates)
+                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if (task.isSuccessful()) {
+                                                                mDatabase.child("users").child(uid).child("detail_user").setValue(customer);
 
-                                            customerDao.insert(customer); //Insert the customer object into database
-                                            toast("Registration Successful");
-                                            finish();
+                                                                toast("Registration Successful");
+                                                                finish();
+                                                            }
+                                                        }
+                                                    });
+
                                         } else {
                                             // If sign in fails, display a message to the user.
                                             Toast.makeText(RegistrationActivity.this, task.getException().getMessage(),

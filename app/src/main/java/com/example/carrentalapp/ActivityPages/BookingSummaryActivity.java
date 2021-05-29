@@ -45,6 +45,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Random;
@@ -151,7 +152,7 @@ public class BookingSummaryActivity extends AppCompatActivity {
                         try {
                             chosenInsurance = snapshot.getValue(Insurance.class);
                             System.out.println("sini cy");
-                            System.out.println(booking.getVehicleCategory());
+                            System.out.println(booking.toString());
                             System.out.println(booking.getVehicleID());
                             mDatabase.child("Vehicle").child(booking.getVehicleCategory().toLowerCase()).child(String.valueOf(booking.getVehicleID())).addValueEventListener(new ValueEventListener() {
                                 @Override
@@ -304,11 +305,15 @@ public class BookingSummaryActivity extends AppCompatActivity {
     }
 
 
-    private long getDayDifference(Calendar start, Calendar end){
-        return ChronoUnit.DAYS.between(start.toInstant(), end.toInstant())+2;
+    private long getDayDifference(String  start, String end){
+        LocalDate localDate1 = LocalDate.parse(start);
+        LocalDate localDate2 = LocalDate.parse(end);
+        long noOfDaysDifference = ChronoUnit.DAYS.between(localDate1, localDate2);
+        return noOfDaysDifference;
     }
 
     private double calculateTotalCost(){
+
         long _days = getDayDifference(booking.getPickupDate(),booking.getReturnDate());
         double _vehicleRate = vehicle.getPrice();
         double _insuranceRate = chosenInsurance.getCost();

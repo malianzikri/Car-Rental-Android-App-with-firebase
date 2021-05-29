@@ -28,8 +28,8 @@ public class Booking implements Serializable {
     private  String VehicleCategory;
     private int bookingID;
 
-    public Calendar pickupDate;
-    public Calendar returnDate;
+    public String pickupDate;
+    public String returnDate;
 
     private String bookingStatus;
 
@@ -67,7 +67,7 @@ public class Booking implements Serializable {
     public Booking() {
 
     }
-    public Booking(int bookingID, Calendar pickupDate, Calendar returnDate, String bookingStatus, String customerID, int administratorID, int billingID, int vehicleID, String insuranceID,String VehicleCategory) {
+    public Booking(int bookingID, String pickupDate, String returnDate, String bookingStatus, String customerID, int administratorID, int billingID, int vehicleID, String insuranceID,String VehicleCategory) {
         this.bookingID = bookingID;
         this.pickupDate = pickupDate;
         this.returnDate = returnDate;
@@ -84,8 +84,8 @@ public class Booking implements Serializable {
         SimpleDateFormat format = new SimpleDateFormat("MMMM, d yyyy hh:mm a");
         return  "\n" +
                 "BookingID:         " + bookingID + "\n" +
-                "Pickup Date:       " + format.format(pickupDate.getTime()) + "\n" +
-                "Return Date:       " + format.format(returnDate.getTime()) + "\n" +
+                "Pickup Date:       " + pickupDate + "\n" +
+                "Return Date:       " + returnDate + "\n" +
                 "Status:            " + bookingStatus + "\n" +
                 "CustomerID:        " + customerID + "\n" +
                 "AdministratorID:   " + administratorID + "\n" +
@@ -108,19 +108,19 @@ public class Booking implements Serializable {
         this.bookingID = bookingID;
     }
 
-    public Calendar getPickupDate() {
+    public String getPickupDate() {
         return pickupDate;
     }
 
-    public void setPickupDate(Calendar pickupDate) {
+    public void setPickupDate(String pickupDate) {
         this.pickupDate = pickupDate;
     }
 
-    public Calendar getReturnDate() {
+    public String getReturnDate() {
         return returnDate;
     }
 
-    public void setReturnDate(Calendar returnDate) {
+    public void setReturnDate(String returnDate) {
         this.returnDate = returnDate;
     }
 
@@ -166,11 +166,11 @@ public class Booking implements Serializable {
 
     public String getPickupTime(){
         SimpleDateFormat format = new SimpleDateFormat("hh:mm a MMMM, d yyyy");
-        return format.format(pickupDate.getTime());
+        return pickupDate;
     }
 
     public String getReturnTime(){
         SimpleDateFormat format = new SimpleDateFormat("hh:mm a MMMM, d yyyy");
-        return format.format(returnDate.getTime());
+        return returnDate;
     }
 }

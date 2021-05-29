@@ -220,7 +220,10 @@ public class BookingCarActivity extends AppCompatActivity {
         String customerID=user.getUid();
 
         //CREATE A BOOKING OBJECT FROM THE INSURANCE PROVIDED
-        Booking newBooking = new Booking(bookingID,_pickup,_return,null,customerID,1010,-1,vehicleID,insuranceID,VehicleCategory);
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-DD");
+        String pickup_date = format1.format(_pickup.getTime());
+        String return_date = format1.format(_return.getTime());
+        Booking newBooking = new Booking(bookingID,pickup_date,return_date,null,customerID,1010,-1,vehicleID,insuranceID,VehicleCategory);
 
         //REDIRECT THEM TO BOOKING SUMMARY PAGE WITH PASSING THE BOOKING OBJECT
         Intent bookingSummary = new Intent(BookingCarActivity.this,BookingSummaryActivity.class);
