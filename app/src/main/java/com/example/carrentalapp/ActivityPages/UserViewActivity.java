@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
@@ -56,6 +57,9 @@ public class UserViewActivity extends AppCompatActivity {
                     case R.id.nav_account :
                         setFragment(accountFragment, loggedInCustomerID);
                         return true;
+                    case R.id.nav_add_vehicle :
+                        Intent add_vehicle = new Intent(UserViewActivity.this, AddVehicleActivity.class);
+                        startActivity(add_vehicle);
                 }
 
                 return false;
