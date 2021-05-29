@@ -1,10 +1,12 @@
 package com.example.carrentalapp.ActivityPages;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -19,6 +21,13 @@ import com.example.carrentalapp.Model.Customer;
 import com.example.carrentalapp.Model.Insurance;
 import com.example.carrentalapp.Model.Vehicle;
 import com.example.carrentalapp.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
@@ -52,11 +61,9 @@ public class ViewBookingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_booking);
 
         initComponents();
-        listenHandler();
-        displayCustomerInformation();
-        displaySummary();
-        displayTotalCost();
+
     }
+    private DatabaseReference mDatabase;
 
     private void initComponents() {
         back = findViewById(R.id.back);
@@ -96,11 +103,88 @@ public class ViewBookingActivity extends AppCompatActivity {
 
         //GET BOOKING OBJECT WHICH WAS PASSED FROM PREVIOUS PAGE
         int _bookingID = Integer.valueOf(getIntent().getStringExtra("BOOKINGID"));
-        booking = bookingDao.findBooking(_bookingID);
-        chosenInsurance = insuranceDao.findInsurance(booking.getInsuranceID());
-        vehicle = vehicleDao.findVehicle(booking.getVehicleID());
-
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance("https://car-rental-android-app-m-f727e-default-rtdb.asia-southeast1.firebasedatabase.app").getReference();
         bookingID = findViewById(R.id.bookingID);
+        mDatabase.child("Booking").child(user.getUid()).child(String.valueOf(_bookingID)).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                try {
+                    if (snapshot.getValue() != null) {
+                        try {
+                            booking = snapshot.getValue(Booking.class);
+
+                            mDatabase.child("Vehicle").child(booking.getVehicleCategory().toLowerCase()).child(String.valueOf(booking.getVehicleID())).addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot snapshot) {
+                                    try {
+                                        if (snapshot.getValue() != null) {
+                                            try {
+                                                vehicle = snapshot.getValue(Vehicle.class);
+
+                                                mDatabase.child("Insurance").child(booking.getInsuranceID()).addValueEventListener(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(DataSnapshot snapshot) {
+                                                        try {
+                                                            if (snapshot.getValue() != null) {
+                                                                try {
+                                                                    chosenInsurance = snapshot.getValue(Insurance.class);
+
+                                                                    listenHandler();
+                                                                    displayCustomerInformation();
+                                                                    displaySummary();
+                                                                    displayTotalCost();
+                                                                } catch (Exception e) {
+                                                                    e.printStackTrace();
+                                                                }
+                                                            } else {
+                                                                Log.e("TAG", " it's null.");
+                                                            }
+                                                        } catch (Exception e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                        Log.e("onCancelled", " cancelled");
+                                                    }
+                                                });
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        } else {
+                                            Log.e("TAG", " it's null.");
+                                        }
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    Log.e("onCancelled", " cancelled");
+                                }
+                            });
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        Log.e("TAG", " it's null.");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("onCancelled", " cancelled");
+            }
+        });
+
+
+
     }
 
     private void listenHandler() {
@@ -113,11 +197,12 @@ public class ViewBookingActivity extends AppCompatActivity {
     }
 
     private void displayCustomerInformation() {
-        Customer customer = customerDao.findUser(Integer.parseInt(booking.getCustomerID()));
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
         //DISPLAY DRIVER INFO
-        name.setText(customer.getFullName());
-        email.setText(customer.getEmail());
-        phoneNumber.setText(customer.getPhoneNumber());
+        name.setText(user.getDisplayName());
+        email.setText(user.getEmail());
+        phoneNumber.setText(user.getPhoneNumber());
 
         bookingID.setText("BookingID: " + booking.getBookingID());
     }

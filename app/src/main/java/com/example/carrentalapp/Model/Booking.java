@@ -28,10 +28,7 @@ public class Booking implements Serializable {
     private  String VehicleCategory;
     private int bookingID;
 
-    @Exclude
     public Calendar pickupDate;
-
-    @Exclude
     public Calendar returnDate;
 
     private String bookingStatus;

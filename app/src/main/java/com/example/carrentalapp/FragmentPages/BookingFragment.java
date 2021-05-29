@@ -82,9 +82,9 @@ public class BookingFragment extends Fragment implements BookingAdapter.onBookin
                 for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
                     Booking booking = new Booking();
                     
-                    booking.setAdministratorID(Integer.parseInt(singleSnapshot.child("AdministratorID").getValue().toString()));
-                    booking.setBillingID(Integer.parseInt(singleSnapshot.child("BillingID").getValue().toString()));
-                    booking.setBookingID(Integer.parseInt(singleSnapshot.child("BookingID").getValue().toString()));
+                    booking.setAdministratorID(Integer.parseInt(singleSnapshot.child("administratorID").getValue().toString()));
+                    booking.setBillingID(Integer.parseInt(singleSnapshot.child("billingID").getValue().toString()));
+                    booking.setBookingID(Integer.parseInt(singleSnapshot.child("bookingID").getValue().toString()));
                     booking.setBookingStatus(singleSnapshot.child("bookingStatus").getValue().toString());
                     booking.setCustomerID(singleSnapshot.child("customerID").getValue().toString());
                     booking.setInsuranceID(singleSnapshot.child("insuranceID").getValue().toString());
