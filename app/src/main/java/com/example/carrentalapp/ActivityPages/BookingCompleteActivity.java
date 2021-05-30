@@ -117,7 +117,7 @@ public class BookingCompleteActivity extends AppCompatActivity {
                             System.out.println("sini cy");
                             System.out.println(booking.getVehicleCategory());
                             System.out.println(booking.getVehicleID());
-                            mDatabase.child("Vehicle").child(booking.getVehicleCategory().toLowerCase()).child(String.valueOf(booking.getVehicleID())).addValueEventListener(new ValueEventListener() {
+                            mDatabase.child("Vehicle").child(booking.getVehicleCategory()).child(String.valueOf(booking.getVehicleID())).addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot snapshot) {
                                     try {

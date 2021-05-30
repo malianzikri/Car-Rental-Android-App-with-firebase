@@ -91,14 +91,14 @@ public class AddVehicleActivity extends AppCompatActivity {
                 if(vehicle != null){
                     String vehicleID = generateID(200,300);
                     mDatabase = FirebaseDatabase.getInstance("https://car-rental-android-app-m-f727e-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference();
-                    mDatabase.child("Vehicle").child(vehicle.getCategory()).child(String.valueOf(vehicleID)).setValue(vehicle);
+                    mDatabase.child("Vehicle").child(vehicle.getCategory().toLowerCase()).child(String.valueOf(vehicleID)).setValue(vehicle);
                     mDatabase.child("VehicleCategory").child(category.getText().toString()).child("quantity").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot snapshot) {
                             try {
                                 if (snapshot.getValue() != null) {
                                     try {
-                                        mDatabase.child("VehicleCategory").child(category.getText().toString()).child("quantity").setValue(Integer.parseInt(snapshot.getValue().toString())+1);
+                                        mDatabase.child("VehicleCategory").child(category.getText().toString().toLowerCase()).child("quantity").setValue(Integer.parseInt(snapshot.getValue().toString())+1);
                                         Log.e("TAG", "" + snapshot.getValue()); // your name values you will get here
                                     } catch (Exception e) {
                                         e.printStackTrace();

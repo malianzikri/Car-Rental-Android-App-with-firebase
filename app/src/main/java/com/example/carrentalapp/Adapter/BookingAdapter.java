@@ -64,7 +64,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingH
         final Booking _booking = bookings.get(position);
         mDatabase = FirebaseDatabase.getInstance("https://car-rental-android-app-m-f727e-default-rtdb.asia-southeast1.firebasedatabase.app").getReference();
 
-        mDatabase.child("Vehicle").child(_booking.getVehicleCategory().toLowerCase()).child(String.valueOf(_booking.getVehicleID())).addValueEventListener(new ValueEventListener() {
+        mDatabase.child("Vehicle").child(_booking.getVehicleCategory()).child(String.valueOf(_booking.getVehicleID())).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 try {

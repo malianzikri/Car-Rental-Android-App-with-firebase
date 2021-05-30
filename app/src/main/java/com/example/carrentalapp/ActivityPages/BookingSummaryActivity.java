@@ -154,7 +154,7 @@ public class BookingSummaryActivity extends AppCompatActivity {
                             System.out.println("sini cy");
                             System.out.println(booking.toString());
                             System.out.println(booking.getVehicleID());
-                            mDatabase.child("Vehicle").child(booking.getVehicleCategory().toLowerCase()).child(String.valueOf(booking.getVehicleID())).addValueEventListener(new ValueEventListener() {
+                            mDatabase.child("Vehicle").child(booking.getVehicleCategory()).child(String.valueOf(booking.getVehicleID())).addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot snapshot) {
                                     try {
@@ -271,7 +271,7 @@ public class BookingSummaryActivity extends AppCompatActivity {
         mDatabase.child("Booking").child(user.getUid()).child(String.valueOf(booking.getBookingID())).setValue(booking);
         mDatabase.child("Payment").child(user.getUid()).child(String.valueOf(payment.getPaymentID())).setValue(payment);
         mDatabase.child("Billing").child(user.getUid()).child(String.valueOf(billing.getBillingID())).setValue(billing);
-        mDatabase.child("Vehicle").child(booking.getVehicleCategory().toLowerCase()).child(String.valueOf(booking.getVehicleID())).child("availability").setValue(false);
+        mDatabase.child("Vehicle").child(booking.getVehicleCategory()).child(String.valueOf(booking.getVehicleID())).child("availability").setValue(false);
 
     }
 

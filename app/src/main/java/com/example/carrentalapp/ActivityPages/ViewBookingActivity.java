@@ -115,7 +115,7 @@ public class ViewBookingActivity extends AppCompatActivity {
                         try {
                             booking = snapshot.getValue(Booking.class);
 
-                            mDatabase.child("Vehicle").child(booking.getVehicleCategory().toLowerCase()).child(String.valueOf(booking.getVehicleID())).addValueEventListener(new ValueEventListener() {
+                            mDatabase.child("Vehicle").child(booking.getVehicleCategory()).child(String.valueOf(booking.getVehicleID())).addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot snapshot) {
                                     try {
