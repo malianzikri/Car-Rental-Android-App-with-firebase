@@ -11,7 +11,7 @@ public class Vehicle implements Serializable {
 
     @PrimaryKey
     @NonNull
-    private String vehicleID;
+    private int vehicleID;
 
     private double price;
     private int seats;
@@ -25,7 +25,7 @@ public class Vehicle implements Serializable {
     public Vehicle() {
 
     }
-    public Vehicle(String vehicleID, double price, int seats, int mileage, String manufacturer, String model, int year, String category, boolean availability, String vehicleImageURL) {
+    public Vehicle(int vehicleID, double price, int seats, int mileage, String manufacturer, String model, int year, String category, boolean availability, String vehicleImageURL) {
         this.vehicleID = vehicleID;
         this.price = price;
         this.seats = seats;
@@ -71,11 +71,11 @@ public class Vehicle implements Serializable {
     }
 
 
-    public String getVehicleID() {
+    public int getVehicleID() {
         return vehicleID;
     }
 
-    public void setVehicleID(String vehicleID) {
+    public void setVehicleID(int vehicleID) {
         this.vehicleID = vehicleID;
     }
 

@@ -89,16 +89,18 @@ public class AddVehicleActivity extends AppCompatActivity {
                 Vehicle vehicle = createVehicle();
 
                 if(vehicle != null){
-                    String vehicleID = generateID(200,300);
+
                     mDatabase = FirebaseDatabase.getInstance("https://car-rental-android-app-m-f727e-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference();
-                    mDatabase.child("Vehicle").child(vehicle.getCategory().toLowerCase()).child(String.valueOf(vehicleID)).setValue(vehicle);
-                    mDatabase.child("VehicleCategory").child(category.getText().toString()).child("quantity").addValueEventListener(new ValueEventListener() {
+                    mDatabase.child("Vehicle").child(vehicle.getCategory()).child(String.valueOf(vehicle.getVehicleID())).setValue(vehicle);
+                    mDatabase.child("VehicleCategory").child(category.getText().toString()).child("quantity").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot snapshot) {
                             try {
                                 if (snapshot.getValue() != null) {
                                     try {
-                                        mDatabase.child("VehicleCategory").child(category.getText().toString().toLowerCase()).child("quantity").setValue(Integer.parseInt(snapshot.getValue().toString())+1);
+                                        mDatabase.child("VehicleCategory").child(category.getText().toString()).child("quantity").setValue(Integer.parseInt(snapshot.getValue().toString())+1);
+                                      
+                                        toast("Vehicle Added");
                                         Log.e("TAG", "" + snapshot.getValue()); // your name values you will get here
                                     } catch (Exception e) {
                                         e.printStackTrace();
@@ -111,6 +113,8 @@ public class AddVehicleActivity extends AppCompatActivity {
                             }
                         }
 
+
+
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
                             Log.e("onCancelled", " cancelled");
@@ -119,8 +123,7 @@ public class AddVehicleActivity extends AppCompatActivity {
 
                     });
 
-                    Log.d("MainActivity",vehicle.getObject());
-                    toast("Vehicle Added");
+
                 }
             }
         });
@@ -175,7 +178,7 @@ public class AddVehicleActivity extends AppCompatActivity {
 
         boolean valid = isValid(_category,_seats,_price,_mileage,_manufacturer,_model,_year,_imageURL);
 
-        String vehicleID = generateID(200,300);
+        int vehicleID = generateID(200,300);
 
 
 
@@ -238,9 +241,9 @@ public class AddVehicleActivity extends AppCompatActivity {
         toast.show();
     }
 
-    private String generateID(int start,int end){
-        FirebaseDatabase database = FirebaseDatabase.getInstance("https://car-rental-android-app-m-f727e-default-rtdb.asia-southeast1.firebasedatabase.app/");
-        String key = database.getReference("users").push().getKey();;
-        return key;
+    private int generateID(int start,int end){
+        Random rnd = new Random();
+        int id = 202000 + rnd.nextInt(65)+10;
+        return id;
     }
 }

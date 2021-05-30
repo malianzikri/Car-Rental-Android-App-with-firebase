@@ -186,51 +186,39 @@ public class LoginActivity extends AppCompatActivity {
         populate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                VehicleCategoryDao vehicleCategoryDao = db.vehicleCategoryDao();
-                VehicleDao vehicleDao = db.vehicleDao();
-                InsuranceDao insuranceDao = db.insuranceDao();
 
-                VehicleCategory vc1 = new VehicleCategory("sedan",100,-47032,"https://di-uploads-pod12.dealerinspire.com/beavertonhondaredesign/uploads/2017/12/2018-Honda-Accord-Sedan-Sideview.png");
-                VehicleCategory vc2 = new VehicleCategory("suv",101,-13936668,"https://medias.fcacanada.ca//specs/fiat/500X/year-2020/media/images/wheelarizer/2019-fiat-500X-wheelizer-sideview-jelly-WPB_eb45b9d20027fd644f0f273785d919cf-1600x1020.png");
-                VehicleCategory vc3 = new VehicleCategory("sports",102,-4068,"https://images.dealer.com/ddc/vehicles/2019/Lamborghini/Huracan/Coupe/trim_LP5802_b8a819/perspective/side-left/2019_76.png");
-                VehicleCategory vc4 = new VehicleCategory("coupe",103,-3092272,"https://di-uploads-pod12.dealerinspire.com/beavertonhondaredesign/uploads/2017/12/2017-Honda-Accord-Coupe-Sideview.png");
-                VehicleCategory vc5 = new VehicleCategory("van",104,-9539986,"https://st.motortrend.com/uploads/sites/10/2016/12/2017-mercedes-benz-metris-base-passenger-van-side-view.png");
+
+                VehicleCategory vc1 = new VehicleCategory("Sedan",100,-47032,"https://di-uploads-pod12.dealerinspire.com/beavertonhondaredesign/uploads/2017/12/2018-Honda-Accord-Sedan-Sideview.png");
+                VehicleCategory vc2 = new VehicleCategory("Suv",101,-13936668,"https://medias.fcacanada.ca//specs/fiat/500X/year-2020/media/images/wheelarizer/2019-fiat-500X-wheelizer-sideview-jelly-WPB_eb45b9d20027fd644f0f273785d919cf-1600x1020.png");
+                VehicleCategory vc3 = new VehicleCategory("Sports",102,-4068,"https://images.dealer.com/ddc/vehicles/2019/Lamborghini/Huracan/Coupe/trim_LP5802_b8a819/perspective/side-left/2019_76.png");
+                VehicleCategory vc4 = new VehicleCategory("Coupe",103,-3092272,"https://di-uploads-pod12.dealerinspire.com/beavertonhondaredesign/uploads/2017/12/2017-Honda-Accord-Coupe-Sideview.png");
+                VehicleCategory vc5 = new VehicleCategory("Van",104,-9539986,"https://st.motortrend.com/uploads/sites/10/2016/12/2017-mercedes-benz-metris-base-passenger-van-side-view.png");
                 mDatabase = FirebaseDatabase.getInstance("https://car-rental-android-app-m-f727e-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference();
-                mDatabase.child("VehicleCategory").child("sedan").setValue(vc1);
-                mDatabase.child("VehicleCategory").child("suv").setValue(vc2);
-                mDatabase.child("VehicleCategory").child("sports").setValue(vc3);
-                mDatabase.child("VehicleCategory").child("coupe").setValue(vc4);
-                mDatabase.child("VehicleCategory").child("van").setValue(vc5);
-
-                vehicleCategoryDao.insert(vc1);
-                vehicleCategoryDao.insert(vc2);
-                vehicleCategoryDao.insert(vc3);
-                vehicleCategoryDao.insert(vc4);
-                vehicleCategoryDao.insert(vc5);
+                mDatabase.child("VehicleCategory").child("Sedan").setValue(vc1);
+                mDatabase.child("VehicleCategory").child("Suv").setValue(vc2);
+                mDatabase.child("VehicleCategory").child("Sports").setValue(vc3);
+                mDatabase.child("VehicleCategory").child("Coupe").setValue(vc4);
+                mDatabase.child("VehicleCategory").child("Van").setValue(vc5);
 
 
-                Vehicle v1 = new Vehicle("273",65.5,5,6497,"nissan","altima",2020,"sedan",true,"https://65e81151f52e248c552b-fe74cd567ea2f1228f846834bd67571e.ssl.cf1.rackcdn.com/ldm-images/2020-Nissan-Altima-Color-Super-Black.png");
-                Vehicle v2 = new Vehicle("285",54.8,5,4578,"toyota","avalon",2020,"sedan",true,"https://img.sm360.ca/ir/w640h390c/images/newcar/ca/2020/toyota/avalon/limited/sedan/main/2020_toyota_avalon_LTD_Main.png");
-                Vehicle v3 = new Vehicle("287",50.99,5,1379,"subaru","wrx",2020,"sedan",true,"https://img.sm360.ca/ir/w640h390c/images/newcar/ca/2020/subaru/wrx/base-wrx/sedan/exteriorColors/12750_cc0640_001_d4s.png");
-                Vehicle v4 = new Vehicle("265",58.89,5,6490,"kia","telluride",2020,"suv",true,"https://www.cstatic-images.com/car-pictures/xl/usd00kis061c021003.png");
-                Vehicle v5 = new Vehicle("229",86.5,5,4970,"lincoln","aviator",2020,"suv",true,"https://www.cstatic-images.com/car-pictures/xl/usd00lis021b021003.png");
-                Vehicle v6 = new Vehicle("219",95.0,5,595,"ford","explorer",2020,"suv",true,"https://www.cstatic-images.com/car-pictures/xl/usd00fos102d021003.png");
-                Vehicle v7 = new Vehicle("297",56.0,2,200,"chevrolet","camaro",2020,"coupe",false,"https://www.cstatic-images.com/car-pictures/xl/usc90chc022b021003.png");
 
-                vehicleDao.insert(v1);
-                vehicleDao.insert(v2);
-                vehicleDao.insert(v3);
-                vehicleDao.insert(v4);
-                vehicleDao.insert(v5);
-                vehicleDao.insert(v6);
-                vehicleDao.insert(v7);
-                mDatabase.child("Vehicle").child("sedan").child(String.valueOf(v1.getVehicleID())).setValue(v1);
-                mDatabase.child("Vehicle").child("sedan").child(String.valueOf(v2.getVehicleID())).setValue(v2);
-                mDatabase.child("Vehicle").child("sedan").child(String.valueOf(v3.getVehicleID())).setValue(v3);
-                mDatabase.child("Vehicle").child("suv").child(String.valueOf(v4.getVehicleID())).setValue(v4);
-                mDatabase.child("Vehicle").child("suv").child(String.valueOf(v5.getVehicleID())).setValue(v5);
-                mDatabase.child("Vehicle").child("suv").child(String.valueOf(v6.getVehicleID())).setValue(v6);
-                mDatabase.child("Vehicle").child("coupe").child(String.valueOf(v7.getVehicleID())).setValue(v7);
+
+                Vehicle v1 = new Vehicle(273,65.5,5,6497,"nissan","altima",2020,"Sedan",true,"https://65e81151f52e248c552b-fe74cd567ea2f1228f846834bd67571e.ssl.cf1.rackcdn.com/ldm-images/2020-Nissan-Altima-Color-Super-Black.png");
+                Vehicle v2 = new Vehicle(285,54.8,5,4578,"toyota","avalon",2020,"Sedan",true,"https://img.sm360.ca/ir/w640h390c/images/newcar/ca/2020/toyota/avalon/limited/sedan/main/2020_toyota_avalon_LTD_Main.png");
+                Vehicle v3 = new Vehicle(287,50.99,5,1379,"subaru","wrx",2020,"Sedan",true,"https://img.sm360.ca/ir/w640h390c/images/newcar/ca/2020/subaru/wrx/base-wrx/sedan/exteriorColors/12750_cc0640_001_d4s.png");
+                Vehicle v4 = new Vehicle(265,58.89,5,6490,"kia","telluride",2020,"Suv",true,"https://www.cstatic-images.com/car-pictures/xl/usd00kis061c021003.png");
+                Vehicle v5 = new Vehicle(229,86.5,5,4970,"lincoln","aviator",2020,"Suv",true,"https://www.cstatic-images.com/car-pictures/xl/usd00lis021b021003.png");
+                Vehicle v6 = new Vehicle(219,95.0,5,595,"ford","explorer",2020,"Suv",true,"https://www.cstatic-images.com/car-pictures/xl/usd00fos102d021003.png");
+                Vehicle v7 = new Vehicle(297,56.0,2,200,"chevrolet","camaro",2020,"Coupe",false,"https://www.cstatic-images.com/car-pictures/xl/usc90chc022b021003.png");
+
+
+                mDatabase.child("Vehicle").child("Sedan").child(String.valueOf(v1.getVehicleID())).setValue(v1);
+                mDatabase.child("Vehicle").child("Sedan").child(String.valueOf(v2.getVehicleID())).setValue(v2);
+                mDatabase.child("Vehicle").child("Sedan").child(String.valueOf(v3.getVehicleID())).setValue(v3);
+                mDatabase.child("Vehicle").child("Suv").child(String.valueOf(v4.getVehicleID())).setValue(v4);
+                mDatabase.child("Vehicle").child("Suv").child(String.valueOf(v5.getVehicleID())).setValue(v5);
+                mDatabase.child("Vehicle").child("Suv").child(String.valueOf(v6.getVehicleID())).setValue(v6);
+                mDatabase.child("Vehicle").child("Coupe").child(String.valueOf(v7.getVehicleID())).setValue(v7);
 
 
                 Insurance i1 = new Insurance("None",0);
@@ -239,9 +227,7 @@ public class LoginActivity extends AppCompatActivity {
                 mDatabase.child("Insurance").child(String.valueOf(i1.getInsuranceID())).setValue(i1);
                 mDatabase.child("Insurance").child(String.valueOf(i2.getInsuranceID())).setValue(i2);
                 mDatabase.child("Insurance").child(String.valueOf(i3.getInsuranceID())).setValue(i3);
-                insuranceDao.insert(i1);
-                insuranceDao.insert(i2);
-                insuranceDao.insert(i3);
+
 
             }
         });

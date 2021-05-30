@@ -213,14 +213,15 @@ public class BookingCarActivity extends AppCompatActivity {
 
 
         //ALL THE REQUIRED ID TO GENERATE A BOOKING
-        int vehicleID = Integer.valueOf(getIntent().getStringExtra("VEHICLEID"));
+        long vehicleID = Long.parseLong(getIntent().getStringExtra("VEHICLEID"));
         String insuranceID = getIntent().getStringExtra("INSURANCEID");
         String VehicleCategory = getIntent().getStringExtra("VEHICLEIDCategory");
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String customerID=user.getUid();
 
         //CREATE A BOOKING OBJECT FROM THE INSURANCE PROVIDED
-        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-DD");
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
         String pickup_date = format1.format(_pickup.getTime());
         String return_date = format1.format(_return.getTime());
         Booking newBooking = new Booking(bookingID,pickup_date,return_date,null,customerID,1010,-1,vehicleID,insuranceID,VehicleCategory);

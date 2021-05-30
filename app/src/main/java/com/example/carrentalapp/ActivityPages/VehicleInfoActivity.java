@@ -118,7 +118,6 @@ public class VehicleInfoActivity extends AppCompatActivity {
                 Intent informationPage = new Intent(VehicleInfoActivity.this, BookingCarActivity.class);
                 informationPage.putExtra("INSURANCEID",getInsuranceID(chosenInsurance));
                 informationPage.putExtra("VEHICLEID",vehicle.getVehicleID()+"");
-
                 informationPage.putExtra("VEHICLEIDCategory",vehicle.getCategory()+"");
                 startActivity(informationPage);
             }

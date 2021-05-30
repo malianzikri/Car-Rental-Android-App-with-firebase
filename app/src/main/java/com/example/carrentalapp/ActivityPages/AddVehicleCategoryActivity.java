@@ -86,17 +86,20 @@ public class AddVehicleCategoryActivity extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                VehicleCategory vehicleCategory = createVehicleCategory();
+                VehicleCategory vehicle=new VehicleCategory();
 
-                if(vehicleCategory != null){
+                String categoryName = category.getText().toString();
+                String category_ID = categoryID.getText().toString();
+                String image_URL = imageURL.getText().toString();
+                vehicle.setCategory(categoryName);
+                vehicle.setCategoryID(Integer.parseInt(category_ID));
+                vehicle.setCategoryImageURL(image_URL);
+                mDatabase = FirebaseDatabase.getInstance("https://car-rental-android-app-m-f727e-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference();
+                mDatabase.child("VehicleCategory").child(category.getText().toString()).setValue(vehicle);
 
-                    mDatabase = FirebaseDatabase.getInstance("https://car-rental-android-app-m-f727e-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference();
-                    mDatabase.child("VehicleCategory").child(vehicleCategory.getCategory()).setValue(vehicleCategory);
 
-
-                    Log.d("MainActivity",vehicleCategory.getObject());
-                    toast("Vehicle Category Added");
-                }
+                Log.d("MainActivity",vehicle.getObject());
+                toast("Vehicle Category Added");
             }
         });
 
@@ -141,20 +144,14 @@ public class AddVehicleCategoryActivity extends AppCompatActivity {
         String category_ID = categoryID.getText().toString();
         String image_URL = imageURL.getText().toString();
 
-        if(!category_ID.equals("") && !vehicleCategoryDao.exists(Integer.valueOf(category_ID)) && !vehicleCategoryDao.exits(categoryName)) {
-            return new VehicleCategory(categoryName,Integer.valueOf(category_ID),colorCode,image_URL);
-        }
 
         if(category_ID.equals(""))
             toast("CategoryID is blank");
         else if(categoryName.equals(""))
             toast("Category name is blank");
-        else if(vehicleCategoryDao.exists(Integer.valueOf(category_ID)))
-            toast("CategoryID already exists");
         else if(image_URL.equals(""))
             toast("Please enter image URL");
-        else
-            toast("Category already exists");
+
         return null;
     }
 

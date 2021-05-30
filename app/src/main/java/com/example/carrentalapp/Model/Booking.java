@@ -52,11 +52,8 @@ public class Booking implements Serializable {
     private int billingID;
 
 
-    @ForeignKey(entity = Vehicle.class,
-            parentColumns = "parentClassColumn",
-            childColumns = "childClassColumn",
-            onDelete = ForeignKey.CASCADE)
-    private int vehicleID;
+
+    private long vehicleID;
 
     @ForeignKey(entity = Insurance.class,
             parentColumns = "parentClassColumn",
@@ -67,7 +64,7 @@ public class Booking implements Serializable {
     public Booking() {
 
     }
-    public Booking(int bookingID, String pickupDate, String returnDate, String bookingStatus, String customerID, int administratorID, int billingID, int vehicleID, String insuranceID,String VehicleCategory) {
+    public Booking(int bookingID, String pickupDate, String returnDate, String bookingStatus, String customerID, int administratorID, int billingID, long vehicleID, String insuranceID,String VehicleCategory) {
         this.bookingID = bookingID;
         this.pickupDate = pickupDate;
         this.returnDate = returnDate;
@@ -89,14 +86,15 @@ public class Booking implements Serializable {
                 "Status:            " + bookingStatus + "\n" +
                 "CustomerID:        " + customerID + "\n" +
                 "AdministratorID:   " + administratorID + "\n" +
+                "VehicleCategory:   " + VehicleCategory + "\n" +
                 "BillingID:         " + billingID + "\n";
     }
 
-    public int getVehicleID() {
+    public long getVehicleID() {
         return vehicleID;
     }
 
-    public void setVehicleID(int vehicleID) {
+    public void setVehicleID(long vehicleID) {
         this.vehicleID = vehicleID;
     }
 
@@ -165,12 +163,10 @@ public class Booking implements Serializable {
     }
 
     public String getPickupTime(){
-        SimpleDateFormat format = new SimpleDateFormat("hh:mm a MMMM, d yyyy");
         return pickupDate;
     }
 
     public String getReturnTime(){
-        SimpleDateFormat format = new SimpleDateFormat("hh:mm a MMMM, d yyyy");
         return returnDate;
     }
 }
